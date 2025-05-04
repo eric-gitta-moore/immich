@@ -197,6 +197,10 @@ export class JobService extends BaseService {
         return this.jobRepository.queue({ name: JobName.BACKUP_DATABASE, data: { force } });
       }
 
+      case QueueName.OCR_SEARCH: {
+        return this.jobRepository.queue({ name: JobName.QUEUE_OCR_SEARCH, data: { force } });
+      }
+
       default: {
         throw new BadRequestException(`Invalid job name: ${name}`);
       }

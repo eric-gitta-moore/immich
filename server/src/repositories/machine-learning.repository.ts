@@ -14,6 +14,7 @@ export interface BoundingBox {
 export enum ModelTask {
   FACIAL_RECOGNITION = 'facial-recognition',
   SEARCH = 'clip',
+  OCR = 'ocr',
 }
 
 export enum ModelType {
@@ -44,6 +45,17 @@ export type FacialRecognitionRequest = {
   };
 };
 
+export type OCRRequest = {
+  [ModelTask.OCR]: {
+    [ModelType.RECOGNITION]: ModelOptions;
+  };
+};
+
+export type OCRResponse = {
+  [ModelTask.OCR]: string;
+  result: { texts: string[]; scores: number[]; boxes: BoundingBox[] };
+};
+
 export interface Face {
   boundingBox: BoundingBox;
   embedding: string;
@@ -52,7 +64,7 @@ export interface Face {
 
 export type FacialRecognitionResponse = { [ModelTask.FACIAL_RECOGNITION]: Face[] } & VisualResponse;
 export type DetectedFaces = { faces: Face[] } & VisualResponse;
-export type MachineLearningRequest = ClipVisualRequest | ClipTextualRequest | FacialRecognitionRequest;
+export type MachineLearningRequest = ClipVisualRequest | ClipTextualRequest | FacialRecognitionRequest | OCRRequest;
 export type TextEncodingOptions = ModelOptions & { language?: string };
 
 @Injectable()
@@ -162,6 +174,15 @@ export class MachineLearningRepository {
       imageHeight: response.imageHeight,
       imageWidth: response.imageWidth,
       faces: response[ModelTask.FACIAL_RECOGNITION],
+    };
+  }
+
+  async ocrImage(urls: string[], imagePath: string) {
+    const request = { [ModelTask.OCR]: { [ModelType.RECOGNITION]: { modelName: 'ocr' } } };
+    const response = await this.predict<OCRResponse>(urls, { imagePath }, request);
+    return {
+      text: response[ModelTask.OCR],
+      result: response.result,
     };
   }
 

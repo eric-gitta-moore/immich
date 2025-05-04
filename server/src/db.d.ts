@@ -3,7 +3,7 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely';
+import type { ColumnType, JSONColumnType } from 'kysely';
 import {
   AlbumUserRole,
   AssetFileType,
@@ -383,6 +383,12 @@ export interface SmartSearch {
   embedding: string;
 }
 
+export interface OCRInfo {
+  assetId: string;
+  ocrJson: JSONColumnType;
+  text: string;
+}
+
 export interface SocketIoAttachments {
   created_at: Generated<Timestamp | null>;
   id: Generated<Int8>;
@@ -491,6 +497,7 @@ export interface DB {
   shared_link__asset: SharedLinkAsset;
   shared_links: SharedLinks;
   smart_search: SmartSearch;
+  ocr_info: OCRInfo;
   socket_io_attachments: SocketIoAttachments;
   system_config: SystemConfig;
   system_metadata: SystemMetadata;

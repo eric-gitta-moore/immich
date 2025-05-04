@@ -69,6 +69,9 @@ export interface SystemConfig {
       minFaces: number;
       maxDistance: number;
     };
+    ocr: {
+      enabled: boolean;
+    };
   };
   map: {
     enabled: boolean;

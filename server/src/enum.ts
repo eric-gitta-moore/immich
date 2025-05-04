@@ -439,6 +439,7 @@ export enum QueueName {
   LIBRARY = 'library',
   NOTIFICATION = 'notifications',
   BACKUP_DATABASE = 'backupDatabase',
+  OCR_SEARCH = 'ocrSearch',
 }
 
 export enum JobName {
@@ -510,6 +511,10 @@ export enum JobName {
   SMART_SEARCH = 'smart-search',
 
   QUEUE_TRASH_EMPTY = 'queue-trash-empty',
+
+  // ocr search
+  QUEUE_OCR_SEARCH = 'queue-ocr-search',
+  OCR_SEARCH = 'ocr-search',
 
   // duplicate detection
   QUEUE_DUPLICATE_DETECTION = 'queue-duplicate-detection',

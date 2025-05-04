@@ -165,6 +165,26 @@ export class AssetJobRepository {
       .stream();
   }
 
+  @GenerateSql({ params: [], stream: true })
+  streamForOCRSearch(force?: boolean) {
+    return this.assetsWithPreviews()
+      .select(['assets.id'])
+      .$if(!force, (qb) =>
+        qb.where((eb) => eb.not((eb) => eb.exists(eb.selectFrom('ocr_info').whereRef('assetId', '=', 'assets.id')))),
+      )
+      .stream();
+  }
+
+  @GenerateSql({ params: [DummyValue.UUID] })
+  getForOCRText(id: string) {
+    return this.db
+      .selectFrom('assets')
+      .select(['assets.id', 'assets.isVisible'])
+      .select((eb) => withFiles(eb, AssetFileType.PREVIEW))
+      .where('assets.id', '=', id)
+      .executeTakeFirst();
+  }
+
   @GenerateSql({ params: [DummyValue.UUID] })
   getForClipEncoding(id: string) {
     return this.db

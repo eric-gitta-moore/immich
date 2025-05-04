@@ -320,6 +320,10 @@ export type JobItem =
   | { name: JobName.SMART_SEARCH; data: IEntityJob }
   | { name: JobName.QUEUE_TRASH_EMPTY; data?: IBaseJob }
 
+  // OCR Search
+  | { name: JobName.QUEUE_OCR_SEARCH; data: IBaseJob }
+  | { name: JobName.OCR_SEARCH; data: IEntityJob }
+
   // Duplicate Detection
   | { name: JobName.QUEUE_DUPLICATE_DETECTION; data: IBaseJob }
   | { name: JobName.DUPLICATE_DETECTION; data: IEntityJob }
