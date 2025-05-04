@@ -228,7 +228,7 @@ export const defaults = Object.freeze<SystemConfig>({
       modelName: 'ViT-B-32__openai',
     },
     ocr: {
-      enabled: true,
+      enabled: false,
       modelName: 'ocr-large',
     },
     duplicateDetection: {
