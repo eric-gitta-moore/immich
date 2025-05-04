@@ -601,6 +601,7 @@ export type AllJobStatusResponseDto = {
     metadataExtraction: JobStatusDto;
     migration: JobStatusDto;
     notifications: JobStatusDto;
+    ocrSearch: JobStatusDto;
     search: JobStatusDto;
     sidecar: JobStatusDto;
     smartSearch: JobStatusDto;
@@ -1212,6 +1213,7 @@ export type SystemConfigJobDto = {
     metadataExtraction: JobSettingsDto;
     migration: JobSettingsDto;
     notifications: JobSettingsDto;
+    ocrSearch: JobSettingsDto;
     search: JobSettingsDto;
     sidecar: JobSettingsDto;
     smartSearch: JobSettingsDto;
@@ -1248,11 +1250,16 @@ export type FacialRecognitionConfig = {
     minScore: number;
     modelName: string;
 };
+export type OcrConfig = {
+    enabled: boolean;
+    modelName: string;
+};
 export type SystemConfigMachineLearningDto = {
     clip: ClipConfig;
     duplicateDetection: DuplicateDetectionConfig;
     enabled: boolean;
     facialRecognition: FacialRecognitionConfig;
+    ocr: OcrConfig;
     /** This property was deprecated in v1.122.0 */
     url?: string;
     urls: string[];
@@ -3667,7 +3674,8 @@ export enum JobName {
     Sidecar = "sidecar",
     Library = "library",
     Notifications = "notifications",
-    BackupDatabase = "backupDatabase"
+    BackupDatabase = "backupDatabase",
+    OcrSearch = "ocrSearch"
 }
 export enum JobCommand {
     Start = "start",

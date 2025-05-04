@@ -120,6 +120,42 @@
       </SettingAccordion>
 
       <SettingAccordion
+        key="ocr-search"
+        title={$t('admin.machine_learning_ocr_search')}
+        subtitle={$t('admin.machine_learning_ocr_search_description')}
+      >
+        <div class="ms-4 mt-4 flex flex-col gap-4">
+          <SettingSwitch
+            title={$t('admin.machine_learning_ocr_search_enabled')}
+            subtitle={$t('admin.machine_learning_ocr_search_enabled_description')}
+            bind:checked={config.machineLearning.ocr.enabled}
+            disabled={disabled || !config.machineLearning.enabled}
+          />
+
+          <hr />
+
+          <SettingInputField
+            inputType={SettingInputFieldType.TEXT}
+            label={$t('admin.machine_learning_ocr_search_model')}
+            bind:value={config.machineLearning.ocr.modelName}
+            required={true}
+            disabled={disabled || !config.machineLearning.enabled || !config.machineLearning.ocr.enabled}
+            isEdited={config.machineLearning.ocr.modelName !== savedConfig.machineLearning.ocr.modelName}
+          >
+            {#snippet descriptionSnippet()}
+              <p class="immich-form-label pb-2 text-sm">
+                <FormatMessage key="admin.machine_learning_ocr_search_model_description">
+                  {#snippet children({ message })}
+                    <a target="_blank" href="https://huggingface.co/immich-app"><u>{message}</u></a>
+                  {/snippet}
+                </FormatMessage>
+              </p>
+            {/snippet}
+          </SettingInputField>
+        </div>
+      </SettingAccordion>
+
+      <SettingAccordion
         key="duplicate-detection"
         title={$t('admin.machine_learning_duplicate_detection')}
         subtitle={$t('admin.machine_learning_duplicate_detection_setting_description')}

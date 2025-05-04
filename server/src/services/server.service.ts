@@ -18,7 +18,12 @@ import { UserStatsQueryResponse } from 'src/repositories/user.repository';
 import { BaseService } from 'src/services/base.service';
 import { asHumanReadable } from 'src/utils/bytes';
 import { mimeTypes } from 'src/utils/mime-types';
-import { isDuplicateDetectionEnabled, isFacialRecognitionEnabled, isSmartSearchEnabled } from 'src/utils/misc';
+import {
+  isDuplicateDetectionEnabled,
+  isFacialRecognitionEnabled,
+  isOCRSearchEnabled,
+  isSmartSearchEnabled,
+} from 'src/utils/misc';
 
 @Injectable()
 export class ServerService extends BaseService {
@@ -76,6 +81,7 @@ export class ServerService extends BaseService {
 
     return {
       smartSearch: isSmartSearchEnabled(machineLearning),
+      ocrSearch: isOCRSearchEnabled(machineLearning),
       facialRecognition: isFacialRecognitionEnabled(machineLearning),
       duplicateDetection: isDuplicateDetectionEnabled(machineLearning),
       map: map.enabled,

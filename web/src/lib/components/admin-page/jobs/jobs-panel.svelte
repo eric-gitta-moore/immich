@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { dialogController } from '$lib/components/shared-components/dialog/dialog';
   import {
     notificationController,
     NotificationType,
@@ -20,10 +21,9 @@
     mdiVideo,
   } from '@mdi/js';
   import type { Component } from 'svelte';
+  import { t } from 'svelte-i18n';
   import JobTile from './job-tile.svelte';
   import StorageMigrationDescription from './storage-migration-description.svelte';
-  import { dialogController } from '$lib/components/shared-components/dialog/dialog';
-  import { t } from 'svelte-i18n';
 
   interface Props {
     jobs: AllJobStatusResponseDto;
@@ -96,6 +96,14 @@
       allText: $t('all'),
       missingText: $t('missing'),
       disabled: !$featureFlags.smartSearch,
+    },
+    [JobName.OcrSearch]: {
+      icon: mdiImageSearch,
+      title: $getJobName(JobName.OcrSearch),
+      subtitle: $t('admin.ocr_search_job_description'),
+      allText: $t('all'),
+      missingText: $t('missing'),
+      disabled: !$featureFlags.ocrSearch,
     },
     [JobName.DuplicateDetection]: {
       icon: mdiContentDuplicate,

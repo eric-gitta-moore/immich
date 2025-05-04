@@ -8201,6 +8201,9 @@
           "notifications": {
             "$ref": "#/components/schemas/JobStatusDto"
           },
+          "ocrSearch": {
+            "$ref": "#/components/schemas/JobStatusDto"
+          },
           "search": {
             "$ref": "#/components/schemas/JobStatusDto"
           },
@@ -8230,6 +8233,7 @@
           "metadataExtraction",
           "migration",
           "notifications",
+          "ocrSearch",
           "search",
           "sidecar",
           "smartSearch",
@@ -9706,7 +9710,8 @@
           "sidecar",
           "library",
           "notifications",
-          "backupDatabase"
+          "backupDatabase",
+          "ocrSearch"
         ],
         "type": "string"
       },
@@ -10545,6 +10550,21 @@
           "client_secret_basic"
         ],
         "type": "string"
+      },
+      "OCRConfig": {
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "modelName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "enabled",
+          "modelName"
+        ],
+        "type": "object"
       },
       "OnThisDayDto": {
         "properties": {
@@ -11507,6 +11527,9 @@
           "oauthAutoLaunch": {
             "type": "boolean"
           },
+          "ocrSearch": {
+            "type": "boolean"
+          },
           "passwordLogin": {
             "type": "boolean"
           },
@@ -11535,6 +11558,7 @@
           "map",
           "oauth",
           "oauthAutoLaunch",
+          "ocrSearch",
           "passwordLogin",
           "reverseGeocoding",
           "search",
@@ -12874,6 +12898,9 @@
           "notifications": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
+          "ocrSearch": {
+            "$ref": "#/components/schemas/JobSettingsDto"
+          },
           "search": {
             "$ref": "#/components/schemas/JobSettingsDto"
           },
@@ -12897,6 +12924,7 @@
           "metadataExtraction",
           "migration",
           "notifications",
+          "ocrSearch",
           "search",
           "sidecar",
           "smartSearch",
@@ -12979,6 +13007,9 @@
           "facialRecognition": {
             "$ref": "#/components/schemas/FacialRecognitionConfig"
           },
+          "ocr": {
+            "$ref": "#/components/schemas/OCRConfig"
+          },
           "url": {
             "deprecated": true,
             "description": "This property was deprecated in v1.122.0",
@@ -12999,6 +13030,7 @@
           "duplicateDetection",
           "enabled",
           "facialRecognition",
+          "ocr",
           "urls"
         ],
         "type": "object"

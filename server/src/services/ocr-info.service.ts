@@ -4,14 +4,14 @@ import { OnJob } from 'src/decorators';
 import { JobName, JobStatus, QueueName } from 'src/enum';
 import { BaseService } from 'src/services/base.service';
 import { JobItem, JobOf } from 'src/types';
-import { isOCRInfoEnabled } from 'src/utils/misc';
+import { isOCRSearchEnabled } from 'src/utils/misc';
 
 @Injectable()
 export class OCRInfoService extends BaseService {
   @OnJob({ name: JobName.QUEUE_OCR_SEARCH, queue: QueueName.OCR_SEARCH })
   async handleQueueOCRSearch({ force }: JobOf<JobName.QUEUE_OCR_SEARCH>): Promise<JobStatus> {
     const { machineLearning } = await this.getConfig({ withCache: false });
-    if (!isOCRInfoEnabled(machineLearning)) {
+    if (!isOCRSearchEnabled(machineLearning)) {
       return JobStatus.SKIPPED;
     }
 
@@ -33,7 +33,7 @@ export class OCRInfoService extends BaseService {
   @OnJob({ name: JobName.OCR_SEARCH, queue: QueueName.OCR_SEARCH })
   async handleOCRSearch({ id }: JobOf<JobName.OCR_SEARCH>): Promise<JobStatus> {
     const { machineLearning } = await this.getConfig({ withCache: true });
-    if (!isOCRInfoEnabled(machineLearning)) {
+    if (!isOCRSearchEnabled(machineLearning)) {
       return JobStatus.SKIPPED;
     }
 
