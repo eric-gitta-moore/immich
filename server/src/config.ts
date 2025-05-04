@@ -71,6 +71,7 @@ export interface SystemConfig {
     };
     ocr: {
       enabled: boolean;
+      modelName: string;
     };
   };
   map: {
@@ -213,6 +214,7 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.THUMBNAIL_GENERATION]: { concurrency: 3 },
     [QueueName.VIDEO_CONVERSION]: { concurrency: 1 },
     [QueueName.NOTIFICATION]: { concurrency: 5 },
+    [QueueName.OCR_SEARCH]: { concurrency: 5 },
   },
   logging: {
     enabled: true,
@@ -224,6 +226,10 @@ export const defaults = Object.freeze<SystemConfig>({
     clip: {
       enabled: true,
       modelName: 'ViT-B-32__openai',
+    },
+    ocr: {
+      enabled: true,
+      modelName: 'ocr-large',
     },
     duplicateDetection: {
       enabled: true,
