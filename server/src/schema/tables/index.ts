@@ -33,3 +33,4 @@ import 'src/schema/tables/user-audit.table';
 import 'src/schema/tables/user-metadata.table';
 import 'src/schema/tables/user.table';
 import 'src/schema/tables/version-history.table';
+import 'src/schema/tables/ocr-info.table';

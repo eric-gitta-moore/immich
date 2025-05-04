@@ -16,6 +16,8 @@ export class ModelConfig extends TaskConfig {
 
 export class CLIPConfig extends ModelConfig {}
 
+export class OCRConfig extends ModelConfig {}
+
 export class DuplicateDetectionConfig extends TaskConfig {
   @IsNumber()
   @Min(0.001)

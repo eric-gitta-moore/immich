@@ -12,10 +12,10 @@ name: immich-prod
 services:
   immich-server:
     container_name: immich_server
-    image: immich-server:latest
-    # extends:
-    #   file: hwaccel.transcoding.yml
-    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    extends:
+      file: hwaccel.transcoding.yml
+      service: nvenc # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     build:
       context: ../
       dockerfile: server/Dockerfile
@@ -25,7 +25,7 @@ services:
     env_file:
       - .env
     ports:
-      - 2283:2283
+      - 32283:2283
     depends_on:
       - redis
       - database
@@ -35,17 +35,17 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: immich-machine-learning:latest
-    # extends:
-    #   file: hwaccel.ml.yml
-    #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
+    extends:
+      file: hwaccel.ml.yml
+      service: cuda # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference
     build:
       context: ../machine-learning
       dockerfile: Dockerfile
       args:
-        - DEVICE=cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference
+        - DEVICE=cuda # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference
     ports:
-      - 3003:3003
+      - 31003:3003
     volumes:
       - model-cache:/cache
     env_file:
@@ -99,9 +99,9 @@ services:
   # add data source for http://immich-prometheus:9090 to get started
   immich-grafana:
     container_name: immich_grafana
-    command: [ './run.sh', '-disable-reporting' ]
+    command: ['./run.sh', '-disable-reporting']
     ports:
-      - 3000:3000
+      - 31000:3000
     image: grafana/grafana:11.6.1-ubuntu@sha256:6fc273288470ef499dd3c6b36aeade093170d4f608f864c5dd3a7fabeae77b50
     volumes:
       - grafana-data:/var/lib/grafana

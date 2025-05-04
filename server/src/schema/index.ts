@@ -29,6 +29,7 @@ import { MemoryAssetTable } from 'src/schema/tables/memory_asset.table';
 import { MoveTable } from 'src/schema/tables/move.table';
 import { NaturalEarthCountriesTable } from 'src/schema/tables/natural-earth-countries.table';
 import { NotificationTable } from 'src/schema/tables/notification.table';
+import { OcrInfoTable } from 'src/schema/tables/ocr-info.table';
 import { PartnerAuditTable } from 'src/schema/tables/partner-audit.table';
 import { PartnerTable } from 'src/schema/tables/partner.table';
 import { PersonTable } from 'src/schema/tables/person.table';
@@ -88,6 +89,7 @@ export class ImmichDatabase {
     UserMetadataTable,
     UserTable,
     VersionHistoryTable,
+    OcrInfoTable,
   ];
 
   functions = [
