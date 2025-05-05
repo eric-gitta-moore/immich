@@ -39,6 +39,7 @@
     getPerson,
     getTagById,
     type MetadataSearchDto,
+    type OcrSearchDto,
     searchAssets,
     searchOcr,
     searchSmart,
@@ -61,12 +62,13 @@
   let searchResultAlbums: AlbumResponseDto[] = $state([]);
   let searchResultAssets: AssetResponseDto[] = $state([]);
   let isLoading = $state(true);
+  let isOcrLoading = $state(false);
   let scrollY = $state(0);
   let scrollYHistory = 0;
 
   const assetInteraction = new AssetInteraction();
 
-  type SearchTerms = MetadataSearchDto & Pick<SmartSearchDto, 'query'>;
+  type SearchTerms = MetadataSearchDto & Pick<SmartSearchDto, 'query'> & Pick<OcrSearchDto, 'ocr'>;
   let searchQuery = $derived(page.url.searchParams.get(QueryParameter.QUERY));
   let smartSearchEnabled = $derived($featureFlags.loaded && $featureFlags.smartSearch);
   let terms = $derived(searchQuery ? JSON.parse(searchQuery) : {});
@@ -201,6 +203,7 @@
       isNotInAlbum: $t('not_in_any_album'),
       type: $t('media_type'),
       query: $t('context'),
+      ocr: $t('ocr_search'),
       city: $t('city'),
       country: $t('country'),
       state: $t('state'),
