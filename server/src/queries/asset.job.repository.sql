@@ -231,6 +231,49 @@ where
       "assetId" = "assets"."id"
   )
 
+-- AssetJobRepository.streamForOCRSearch
+select
+  "assets"."id"
+from
+  "assets"
+  inner join "asset_job_status" as "job_status" on "assetId" = "assets"."id"
+where
+  "assets"."isVisible" = $1
+  and "assets"."deletedAt" is null
+  and "job_status"."previewAt" is not null
+  and not exists (
+    select
+    from
+      "ocr_info"
+    where
+      "assetId" = "assets"."id"
+  )
+
+-- AssetJobRepository.getForOCRText
+select
+  "assets"."id",
+  "assets"."isVisible",
+  (
+    select
+      coalesce(json_agg(agg), '[]')
+    from
+      (
+        select
+          "asset_files"."id",
+          "asset_files"."path",
+          "asset_files"."type"
+        from
+          "asset_files"
+        where
+          "asset_files"."assetId" = "assets"."id"
+          and "asset_files"."type" = $1
+      ) as agg
+  ) as "files"
+from
+  "assets"
+where
+  "assets"."id" = $2
+
 -- AssetJobRepository.getForClipEncoding
 select
   "assets"."id",

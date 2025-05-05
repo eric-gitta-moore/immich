@@ -384,7 +384,7 @@ export interface SmartSearch {
 }
 
 export interface OCRInfo {
-  assetId: string;
+  assetsId: string;
   ocrJson: JSONColumnType;
   text: string;
 }

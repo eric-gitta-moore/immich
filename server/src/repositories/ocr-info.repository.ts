@@ -131,7 +131,7 @@ export class OCRInfoRepository {
       { page: 1, size: 200 },
       {
         takenAfter: DummyValue.DATE,
-        embedding: DummyValue.VECTOR,
+        ocr: DummyValue.STRING,
         lensModel: DummyValue.STRING,
         withStacked: true,
         isFavorite: true,
@@ -145,7 +145,7 @@ export class OCRInfoRepository {
     }
 
     const items = await searchAssetBuilder(this.db, options)
-      .innerJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
+      .innerJoin('ocr_info', 'assets.id', 'ocr_info.assetsId')
       .where(sql`f_unaccent(ocr_info.text)`, 'ilike', sql`'%' || f_unaccent(${options.ocr}) || '%'`)
       .limit(pagination.size + 1)
       .offset((pagination.page - 1) * pagination.size)
@@ -160,7 +160,7 @@ export class OCRInfoRepository {
       .values({ assetId, text, ocrJson })
       .onConflict((oc) =>
         oc
-          .column('assetId')
+          .column('assetsId')
           .doUpdateSet((eb) => ({ text: eb.ref('excluded.text'), ocrJson: eb.ref('excluded.ocrJson') })),
       )
       .execute();

@@ -12,7 +12,7 @@ export class OcrInfoTable {
     primary: true,
     constraintName: 'ocr_info_assets_id_fk',
   })
-  assetId!: string;
+  assetsId!: string;
 
   @Column({ type: 'text', synchronize: false })
   text!: string;
