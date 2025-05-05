@@ -5,6 +5,7 @@ import { mapPerson, PersonResponseDto } from 'src/dtos/person.dto';
 import {
   mapPlaces,
   MetadataSearchDto,
+  OcrSearchDto,
   PlacesResponseDto,
   RandomSearchDto,
   SearchPeopleDto,
@@ -17,7 +18,7 @@ import {
 import { AssetOrder } from 'src/enum';
 import { BaseService } from 'src/services/base.service';
 import { getMyPartnerIds } from 'src/utils/asset.util';
-import { isSmartSearchEnabled } from 'src/utils/misc';
+import { isOCRSearchEnabled, isSmartSearchEnabled } from 'src/utils/misc';
 
 @Injectable()
 export class SearchService extends BaseService {
@@ -87,6 +88,22 @@ export class SearchService extends BaseService {
       { ...dto, userIds, embedding },
     );
 
+    return this.mapResponse(items, hasNextPage ? (page + 1).toString() : null, { auth });
+  }
+
+  async searchOcr(auth: AuthDto, dto: OcrSearchDto): Promise<SearchResponseDto> {
+    const { machineLearning } = await this.getConfig({ withCache: false });
+    if (!isOCRSearchEnabled(machineLearning)) {
+      throw new BadRequestException('OCR search is not enabled');
+    }
+
+    const userIds = await this.getUserIdsToSearch(auth);
+    const page = dto.page ?? 1;
+    const size = dto.size || 100;
+    const { hasNextPage, items } = await this.ocrInfoRepository.searchOcr(
+      { page, size },
+      { ...dto, userIds, ocr: dto.ocr },
+    );
     return this.mapResponse(items, hasNextPage ? (page + 1).toString() : null, { auth });
   }
 

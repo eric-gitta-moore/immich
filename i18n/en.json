@@ -661,6 +661,8 @@
   "confirm_password": "Confirm password",
   "contain": "Contain",
   "context": "Context",
+  "ocr_search": "OCR Search",
+  "ocr_search_example": "Text in the image",
   "continue": "Continue",
   "control_bottom_app_bar_album_info_shared": "{} items · Shared",
   "control_bottom_app_bar_create_new_album": "Create new album",

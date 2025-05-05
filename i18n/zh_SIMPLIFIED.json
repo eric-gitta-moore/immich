@@ -665,6 +665,8 @@
   "confirm_password": "确认密码",
   "contain": "包含",
   "context": "以文搜图",
+  "ocr_search": "OCR 搜索",
+  "ocr_search_example": "图片中的文字",
   "continue": "继续",
   "control_bottom_app_bar_album_info_shared": "已共享 {} 项",
   "control_bottom_app_bar_create_new_album": "新建相册",

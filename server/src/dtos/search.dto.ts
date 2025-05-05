@@ -203,6 +203,23 @@ export class SmartSearchDto extends BaseSearchDto {
   page?: number;
 }
 
+export class OcrSearchDto extends BaseSearchDto {
+  @IsString()
+  @IsNotEmpty()
+  ocr!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Optional()
+  language?: string;
+
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  @Optional()
+  page?: number;
+}
+
 export class SearchPlacesDto {
   @IsString()
   @IsNotEmpty()

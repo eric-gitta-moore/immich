@@ -77,8 +77,8 @@ export interface SearchExifOptions {
   rating?: number | null;
 }
 
-export interface SearchEmbeddingOptions {
-  embedding: string;
+export interface SearchOcrOptions {
+  ocr: string;
   userIds: string[];
 }
 
@@ -114,52 +114,13 @@ export type AssetSearchOptions = BaseAssetSearchOptions & SearchRelationOptions;
 export type AssetSearchBuilderOptions = Omit<AssetSearchOptions, 'orderDirection'>;
 
 export type SmartSearchOptions = SearchDateOptions &
-  SearchEmbeddingOptions &
+  SearchOcrOptions &
   SearchExifOptions &
   SearchOneToOneRelationOptions &
   SearchStatusOptions &
   SearchUserIdOptions &
   SearchPeopleOptions &
   SearchTagOptions;
-
-export interface FaceEmbeddingSearch extends SearchEmbeddingOptions {
-  hasPerson?: boolean;
-  numResults: number;
-  maxDistance: number;
-  minBirthDate?: Date | null;
-}
-
-export interface AssetDuplicateSearch {
-  assetId: string;
-  embedding: string;
-  maxDistance: number;
-  type: AssetType;
-  userIds: string[];
-}
-
-export interface FaceSearchResult {
-  distance: number;
-  id: string;
-  personId: string | null;
-}
-
-export interface AssetDuplicateResult {
-  assetId: string;
-  duplicateId: string | null;
-  distance: number;
-}
-
-export interface GetStatesOptions {
-  country?: string;
-}
-
-export interface GetCitiesOptions extends GetStatesOptions {
-  state?: string;
-}
-
-export interface GetCameraModelsOptions {
-  make?: string;
-}
 
 @Injectable()
 export class OCRInfoRepository {
@@ -178,14 +139,14 @@ export class OCRInfoRepository {
       },
     ],
   })
-  async searchSmart(pagination: SearchPaginationOptions, options: SmartSearchOptions) {
+  async searchOcr(pagination: SearchPaginationOptions, options: SmartSearchOptions) {
     if (!isValidInteger(pagination.size, { min: 1, max: 1000 })) {
       throw new Error(`Invalid value for 'size': ${pagination.size}`);
     }
 
     const items = await searchAssetBuilder(this.db, options)
-      .innerJoin('smart_search', 'assets.id', 'smart_search.assetId')
-      .orderBy(sql`smart_search.embedding <=> ${options.embedding}`)
+      .innerJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
+      .where(sql`f_unaccent(ocr_info.text)`, 'ilike', sql`'%' || f_unaccent(${options.ocr}) || '%'`)
       .limit(pagination.size + 1)
       .offset((pagination.page - 1) * pagination.size)
       .execute();

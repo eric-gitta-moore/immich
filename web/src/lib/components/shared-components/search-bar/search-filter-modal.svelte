@@ -1,12 +1,12 @@
 <script lang="ts" module>
-  import type { SearchLocationFilter } from './search-location-section.svelte';
-  import type { SearchDisplayFilters } from './search-display-section.svelte';
-  import type { SearchDateFilter } from './search-date-section.svelte';
   import { MediaType, QueryType, validQueryTypes } from '$lib/constants';
+  import type { SearchDateFilter } from './search-date-section.svelte';
+  import type { SearchDisplayFilters } from './search-display-section.svelte';
+  import type { SearchLocationFilter } from './search-location-section.svelte';
 
   export type SearchFilter = {
     query: string;
-    queryType: 'smart' | 'metadata' | 'description';
+    queryType: 'smart' | 'ocr' | 'metadata' | 'description';
     personIds: SvelteSet<string>;
     tagIds: SvelteSet<string>;
     location: SearchLocationFilter;
@@ -19,24 +19,24 @@
 </script>
 
 <script lang="ts">
+  import FullScreenModal from '$lib/components/shared-components/full-screen-modal.svelte';
+  import { preferences } from '$lib/stores/user.store';
+  import { parseUtcDate } from '$lib/utils/date-time';
+  import { generateId } from '$lib/utils/generate-id';
+  import { AssetTypeEnum, type MetadataSearchDto, type SmartSearchDto } from '@immich/sdk';
   import { Button } from '@immich/ui';
-  import { AssetTypeEnum, type SmartSearchDto, type MetadataSearchDto } from '@immich/sdk';
-  import SearchPeopleSection from './search-people-section.svelte';
-  import SearchTagsSection from './search-tags-section.svelte';
-  import SearchLocationSection from './search-location-section.svelte';
+  import { mdiTune } from '@mdi/js';
+  import { t } from 'svelte-i18n';
+  import { SvelteSet } from 'svelte/reactivity';
   import SearchCameraSection, { type SearchCameraFilter } from './search-camera-section.svelte';
   import SearchDateSection from './search-date-section.svelte';
-  import SearchMediaSection from './search-media-section.svelte';
-  import SearchRatingsSection from './search-ratings-section.svelte';
-  import { parseUtcDate } from '$lib/utils/date-time';
   import SearchDisplaySection from './search-display-section.svelte';
+  import SearchLocationSection from './search-location-section.svelte';
+  import SearchMediaSection from './search-media-section.svelte';
+  import SearchPeopleSection from './search-people-section.svelte';
+  import SearchRatingsSection from './search-ratings-section.svelte';
+  import SearchTagsSection from './search-tags-section.svelte';
   import SearchTextSection from './search-text-section.svelte';
-  import { t } from 'svelte-i18n';
-  import FullScreenModal from '$lib/components/shared-components/full-screen-modal.svelte';
-  import { mdiTune } from '@mdi/js';
-  import { generateId } from '$lib/utils/generate-id';
-  import { SvelteSet } from 'svelte/reactivity';
-  import { preferences } from '$lib/stores/user.store';
 
   interface Props {
     searchQuery: MetadataSearchDto | SmartSearchDto;
@@ -125,6 +125,7 @@
       query: filter.queryType === 'smart' ? query : undefined,
       originalFileName: filter.queryType === 'metadata' ? query : undefined,
       description: filter.queryType === 'description' ? query : undefined,
+      ocr: filter.queryType === 'ocr' ? query : undefined,
       country: filter.location.country,
       state: filter.location.state,
       city: filter.location.city,

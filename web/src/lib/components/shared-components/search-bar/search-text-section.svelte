@@ -4,7 +4,7 @@
 
   interface Props {
     query: string | undefined;
-    queryType?: 'smart' | 'metadata' | 'description';
+    queryType?: 'smart' | 'ocr' | 'metadata' | 'description';
   }
 
   let { query = $bindable(), queryType = $bindable('smart') }: Props = $props();
@@ -14,6 +14,7 @@
   <legend class="immich-form-label">{$t('search_type')}</legend>
   <div class="flex flex-wrap gap-x-5 gap-y-2 mt-1 mb-2">
     <RadioButton name="query-type" id="context-radio" label={$t('context')} bind:group={queryType} value="smart" />
+    <RadioButton name="query-type" id="ocr-radio" label={$t('ocr_search')} bind:group={queryType} value="ocr" />
     <RadioButton
       name="query-type"
       id="file-name-radio"
@@ -40,6 +41,17 @@
     name="context"
     placeholder={$t('sunrise_on_the_beach')}
     bind:value={query}
+  />
+{:else if queryType === 'ocr'}
+  <label for="ocr-input" class="immich-form-label">{$t('ocr_search')}</label>
+  <input
+    class="immich-form-input hover:cursor-text w-full !mt-1"
+    type="text"
+    id="ocr-input"
+    name="ocr"
+    placeholder={$t('ocr_search_example')}
+    bind:value={query}
+    aria-labelledby="ocr-label"
   />
 {:else if queryType === 'metadata'}
   <label for="file-name-input" class="immich-form-label">{$t('search_by_filename')}</label>
