@@ -249,6 +249,11 @@ export class AssetService extends BaseService {
           jobs.push({ name: JobName.VIDEO_CONVERSION, data: { id } });
           break;
         }
+
+        case AssetJobName.REFRESH_OCR: {
+          jobs.push({ name: JobName.OCR_SEARCH, data: { id } });
+          break;
+        }
       }
     }
 

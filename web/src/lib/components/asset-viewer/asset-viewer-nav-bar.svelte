@@ -215,6 +215,11 @@
             onClick={() => onRunJob(AssetJobName.RegenerateThumbnail)}
             text={$getAssetJobName(AssetJobName.RegenerateThumbnail)}
           />
+          <MenuOption
+            icon={mdiImageRefreshOutline}
+            onClick={() => onRunJob(AssetJobName.RefreshOcr)}
+            text={$getAssetJobName(AssetJobName.RefreshOcr)}
+          />
           {#if asset.type === AssetTypeEnum.Video}
             <MenuOption
               icon={mdiCogRefreshOutline}

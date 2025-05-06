@@ -3693,7 +3693,8 @@ export enum AssetJobName {
     RefreshFaces = "refresh-faces",
     RefreshMetadata = "refresh-metadata",
     RegenerateThumbnail = "regenerate-thumbnail",
-    TranscodeVideo = "transcode-video"
+    TranscodeVideo = "transcode-video",
+    RefreshOcr = "refresh-ocr"
 }
 export enum AssetMediaSize {
     Fullsize = "fullsize",
