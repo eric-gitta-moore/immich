@@ -16,6 +16,7 @@ name: immich-dev
 services:
   immich-server:
     container_name: immich_server
+    platform: linux/amd64
     command: ['/usr/src/app/bin/immich-dev']
     image: immich-server-dev:latest
     # extends:
@@ -49,6 +50,7 @@ services:
       IMMICH_THIRD_PARTY_BUG_FEATURE_URL: https://github.com/immich-app/immich/issues
       IMMICH_THIRD_PARTY_DOCUMENTATION_URL: https://immich.app/docs
       IMMICH_THIRD_PARTY_SUPPORT_URL: https://immich.app/docs/third-party
+      IMMICH_LOG_LEVEL: verbose
     ulimits:
       nofile:
         soft: 1048576
@@ -65,6 +67,7 @@ services:
 
   immich-web:
     container_name: immich_web
+    platform: linux/amd64
     image: immich-web-dev:latest
     # Needed for rootless docker setup, see https://github.com/moby/moby/issues/45919
     # user: 0:0
@@ -92,6 +95,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
+    platform: linux/amd64
     image: immich-machine-learning-dev:latest
     # extends:
     #   file: hwaccel.ml.yml
@@ -117,12 +121,16 @@ services:
   redis:
     container_name: immich_redis
     image: docker.io/valkey/valkey:8-bookworm@sha256:c855f98e09d558a0d7cc1a4e56473231206a4c54c0114ada9c485b47aeb92ec8
+    platform: linux/amd64
     healthcheck:
       test: redis-cli ping || exit 1
+    ports:
+      - 6379:6379
 
   database:
     container_name: immich_postgres
     image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    platform: linux/amd64
     env_file:
       - .env
     environment:
