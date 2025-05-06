@@ -53,7 +53,7 @@ export type OCRRequest = {
 
 export type OCRResponse = {
   [ModelTask.OCR]: string;
-  result: { texts: string[]; scores: number[]; boxes: BoundingBox[] };
+  result: { texts: string[]; scores: string[]; boxes: BoundingBox[] };
 };
 
 export interface Face {
