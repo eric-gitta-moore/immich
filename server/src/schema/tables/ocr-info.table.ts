@@ -3,8 +3,12 @@ import { Column, ForeignKeyColumn, Index, Table } from 'src/sql-tools';
 
 @Table({ name: 'ocr_info', primaryConstraintName: 'ocr_info_pk' })
 @Index({
-  name: 'ocr_info_assetsid_text_index',
-  columns: ['assetsId', 'text'],
+  name: 'ocr_info_pk',
+  columns: ['assetId'],
+})
+@Index({
+  name: 'ocr_info_text_index',
+  columns: ['text'],
 })
 export class OcrInfoTable {
   @ForeignKeyColumn(() => AssetTable, {
@@ -12,7 +16,7 @@ export class OcrInfoTable {
     primary: true,
     constraintName: 'ocr_info_assets_id_fk',
   })
-  assetsId!: string;
+  assetId!: string;
 
   @Column({ type: 'text', synchronize: false })
   text!: string;
