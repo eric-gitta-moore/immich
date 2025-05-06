@@ -19,6 +19,7 @@
       AssetJobName.RegenerateThumbnail,
       AssetJobName.RefreshMetadata,
       AssetJobName.RefreshOcr,
+      AssetJobName.RefreshSmartSearch,
       AssetJobName.TranscodeVideo,
     ],
   }: Props = $props();

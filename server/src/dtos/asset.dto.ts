@@ -97,6 +97,7 @@ export enum AssetJobName {
   REGENERATE_THUMBNAIL = 'regenerate-thumbnail',
   TRANSCODE_VIDEO = 'transcode-video',
   REFRESH_OCR = 'refresh-ocr',
+  REFRESH_SMART_SEARCH = 'refresh-smart-search',
 }
 
 export class AssetJobsDto extends AssetIdsDto {

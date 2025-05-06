@@ -3694,7 +3694,8 @@ export enum AssetJobName {
     RefreshMetadata = "refresh-metadata",
     RegenerateThumbnail = "regenerate-thumbnail",
     TranscodeVideo = "transcode-video",
-    RefreshOcr = "refresh-ocr"
+    RefreshOcr = "refresh-ocr",
+    RefreshSmartSearch = "refresh-smart-search"
 }
 export enum AssetMediaSize {
     Fullsize = "fullsize",

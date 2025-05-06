@@ -217,6 +217,7 @@ export const getAssetJobName = derived(t, ($t) => {
       [AssetJobName.RegenerateThumbnail]: $t('refresh_thumbnails'),
       [AssetJobName.TranscodeVideo]: $t('refresh_encoded_videos'),
       [AssetJobName.RefreshOcr]: $t('refresh_ocr'),
+      [AssetJobName.RefreshSmartSearch]: $t('refresh_smart_search'),
     };
 
     return names[job];
@@ -231,6 +232,7 @@ export const getAssetJobMessage = derived(t, ($t) => {
       [AssetJobName.RegenerateThumbnail]: $t('regenerating_thumbnails'),
       [AssetJobName.TranscodeVideo]: $t('refreshing_encoded_video'),
       [AssetJobName.RefreshOcr]: $t('refreshing_ocr'),
+      [AssetJobName.RefreshSmartSearch]: $t('refreshing_smart_search'),
     };
 
     return messages[job];
@@ -244,6 +246,7 @@ export const getAssetJobIcon = (job: AssetJobName) => {
     [AssetJobName.RegenerateThumbnail]: mdiImageRefreshOutline,
     [AssetJobName.TranscodeVideo]: mdiCogRefreshOutline,
     [AssetJobName.RefreshOcr]: mdiImageRefreshOutline,
+    [AssetJobName.RefreshSmartSearch]: mdiImageRefreshOutline,
   };
 
   return names[job];

@@ -254,6 +254,11 @@ export class AssetService extends BaseService {
           jobs.push({ name: JobName.OCR_SEARCH, data: { id } });
           break;
         }
+
+        case AssetJobName.REFRESH_SMART_SEARCH: {
+          jobs.push({ name: JobName.SMART_SEARCH, data: { id } });
+          break;
+        }
       }
     }
 

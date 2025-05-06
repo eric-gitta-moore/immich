@@ -8710,7 +8710,8 @@
           "refresh-metadata",
           "regenerate-thumbnail",
           "transcode-video",
-          "refresh-ocr"
+          "refresh-ocr",
+          "refresh-smart-search"
         ],
         "type": "string"
       },
