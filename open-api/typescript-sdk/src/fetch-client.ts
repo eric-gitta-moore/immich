@@ -960,6 +960,7 @@ export type SmartSearchDto = {
     createdAfter?: string;
     createdBefore?: string;
     deviceId?: string;
+    fuse?: boolean;
     isArchived?: boolean;
     isEncoded?: boolean;
     isFavorite?: boolean;

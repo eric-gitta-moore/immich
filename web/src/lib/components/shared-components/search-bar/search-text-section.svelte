@@ -4,7 +4,7 @@
 
   interface Props {
     query: string | undefined;
-    queryType?: 'smart' | 'ocr' | 'metadata' | 'description';
+    queryType?: 'fuse' | 'smart' | 'ocr' | 'metadata' | 'description';
   }
 
   let { query = $bindable(), queryType = $bindable('smart') }: Props = $props();
@@ -13,6 +13,7 @@
 <fieldset>
   <legend class="immich-form-label">{$t('search_type')}</legend>
   <div class="flex flex-wrap gap-x-5 gap-y-2 mt-1 mb-2">
+    <RadioButton name="query-type" id="fuse-radio" label={$t('fuse_search')} bind:group={queryType} value="fuse" />
     <RadioButton name="query-type" id="context-radio" label={$t('context')} bind:group={queryType} value="smart" />
     <RadioButton name="query-type" id="ocr-radio" label={$t('ocr_search')} bind:group={queryType} value="ocr" />
     <RadioButton
@@ -32,7 +33,17 @@
   </div>
 </fieldset>
 
-{#if queryType === 'smart'}
+{#if queryType === 'fuse'}
+  <label for="context-input" class="immich-form-label">{$t('search_by_context_fuse')}</label>
+  <input
+    class="immich-form-input hover:cursor-text w-full !mt-1"
+    type="text"
+    id="context-input"
+    name="context"
+    placeholder={$t('sunrise_on_the_beach')}
+    bind:value={query}
+  />
+{:else if queryType === 'smart'}
   <label for="context-input" class="immich-form-label">{$t('search_by_context')}</label>
   <input
     class="immich-form-input hover:cursor-text w-full !mt-1"

@@ -274,14 +274,22 @@ export class SearchRepository {
     if (!isValidInteger(pagination.size, { min: 1, max: 1000 })) {
       throw new Error(`Invalid value for 'size': ${pagination.size}`);
     }
-    const items = await searchAssetBuilder(this.db, options)
-      .leftJoin('smart_search', 'assets.id', 'smart_search.assetId')
-      .leftJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
-      .select([
-        sql`ts_rank(to_tsvector(f_unaccent(ocr_info.text)), to_tsquery(f_unaccent(${options.query})))`.as('text_rank'),
-        sql`1 - (smart_search.embedding <=> ${options.embedding})`.as('vector_rank'),
-        sql`( 0.6 * vector_rank + 0.4 * text_rank )`.as('combined_rank'),
-      ])
+
+    const items = await this.db
+      .with('ranked_assets', (qb) =>
+        searchAssetBuilder(this.db, options)
+          .leftJoin('smart_search', 'assets.id', 'smart_search.assetId')
+          .leftJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
+          .select([
+            sql`ts_rank(to_tsvector(f_unaccent(ocr_info.text)), to_tsquery(f_unaccent(${options.query})))`.as(
+              'text_rank',
+            ),
+            sql`1 - (smart_search.embedding <=> ${options.embedding})`.as('vector_rank'),
+          ]),
+      )
+      .selectFrom('ranked_assets')
+      .selectAll('ranked_assets')
+      .select(sql`(0.4 * vector_rank + 0.6 * text_rank)`.as('combined_rank'))
       .orderBy('combined_rank', 'desc')
       .limit(pagination.size + 1)
       .offset((pagination.page - 1) * pagination.size)

@@ -83,7 +83,9 @@ export class SearchService extends BaseService {
     });
     const page = dto.page ?? 1;
     const size = dto.size || 100;
-    const searchFn = dto.fuse ? this.searchRepository.searchFuse : this.searchRepository.searchSmart;
+    const searchFn = (dto.fuse ? this.searchRepository.searchFuse : this.searchRepository.searchSmart).bind(
+      this.searchRepository,
+    );
     const { hasNextPage, items } = await searchFn({ page, size }, { ...dto, userIds, embedding });
 
     return this.mapResponse(items, hasNextPage ? (page + 1).toString() : null, { auth });
