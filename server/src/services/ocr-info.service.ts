@@ -48,6 +48,11 @@ export class OCRInfoService extends BaseService {
 
     const ocrResponse = await this.machineLearningRepository.ocrImage(machineLearning.urls, asset.files[0].path);
 
+    if (ocrResponse.text.length === 0) {
+      this.logger.warn(`OCR text is empty for asset ${asset.id}`);
+      return JobStatus.SKIPPED;
+    }
+
     await this.ocrInfoRepository.upsert(asset.id, ocrResponse.text, ocrResponse.result);
 
     return JobStatus.SUCCESS;
