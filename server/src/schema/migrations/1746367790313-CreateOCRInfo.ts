@@ -2,6 +2,10 @@ import { Kysely, sql } from 'kysely';
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
+ALTER DATABASE ${process.env.DB_DATABASE_NAME || 'immich'} SET default_text_search_config = 'zhcfg';
+`.execute(db);
+
+  await sql`
 -- auto-generated definition
 create table ocr_info
 (
@@ -15,8 +19,8 @@ create table ocr_info
     "ocrJson" jsonb
 );
 
-create index ocr_info_text_index
-    on ocr_info (text);
+create index ocr_info_idx_vec_text
+    on ocr_info using gin (to_tsvector('zhcfg'::regconfig, text));
 `.execute(db);
 }
 
