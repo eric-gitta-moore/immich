@@ -7,8 +7,8 @@ import { Column, ForeignKeyColumn, Index, Table } from 'src/sql-tools';
   columns: ['assetId'],
 })
 @Index({
-  name: 'ocr_info_text_index',
-  columns: ['text'],
+  name: 'ocr_info_idx_vec_text',
+  columns: [`text`],
 })
 export class OcrInfoTable {
   @ForeignKeyColumn(() => AssetTable, {
