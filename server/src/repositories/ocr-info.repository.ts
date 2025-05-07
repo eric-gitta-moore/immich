@@ -146,9 +146,11 @@ export class OCRInfoRepository {
 
     const items = await searchAssetBuilder(this.db, options)
       .innerJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
-      .where(sql`f_unaccent(ocr_info.text)`, 'ilike', sql`'%' || f_unaccent(${options.ocr}) || '%'`)
+      .select(sql`ts_rank( to_tsvector(f_unaccent(ocr_info.text)), to_tsquery(f_unaccent(${options.ocr})) )`.as('rank'))
+      .where(sql`to_tsvector(f_unaccent(ocr_info.text))`, '@@', sql`to_tsquery(f_unaccent(${options.ocr}))`)
       .limit(pagination.size + 1)
       .offset((pagination.page - 1) * pagination.size)
+      .orderBy('rank')
       .execute();
 
     return paginationHelper(items, pagination.size);

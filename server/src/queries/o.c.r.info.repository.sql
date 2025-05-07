@@ -2,20 +2,26 @@
 
 -- OCRInfoRepository.searchOcr
 select
-  "assets".*
+  "assets".*,
+  ts_rank(
+    to_tsvector(f_unaccent (ocr_info.text)),
+    to_tsquery(f_unaccent ($1))
+  ) as "rank"
 from
   "assets"
   inner join "exif" on "assets"."id" = "exif"."assetId"
-  inner join "ocr_info" on "assets"."id" = "ocr_info"."assetsId"
+  inner join "ocr_info" on "assets"."id" = "ocr_info"."assetId"
 where
-  "assets"."fileCreatedAt" >= $1
-  and "exif"."lensModel" = $2
-  and "assets"."ownerId" = any ($3::uuid[])
-  and "assets"."isFavorite" = $4
-  and "assets"."isArchived" = $5
+  "assets"."fileCreatedAt" >= $2
+  and "exif"."lensModel" = $3
+  and "assets"."ownerId" = any ($4::uuid[])
+  and "assets"."isFavorite" = $5
+  and "assets"."isArchived" = $6
   and "assets"."deletedAt" is null
-  and f_unaccent (ocr_info.text) ilike '%' || f_unaccent ($6) || '%'
+  and to_tsvector(f_unaccent (ocr_info.text)) @@ to_tsquery(f_unaccent ($7))
+order by
+  "rank"
 limit
-  $7
-offset
   $8
+offset
+  $9
