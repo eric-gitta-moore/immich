@@ -1,10 +1,10 @@
 import { Kysely, sql } from 'kysely';
 
-const tsConfig = process.env.DEFAULT_TEXT_SEARCH_CONFIG || 'chinese'
+const tsConfig = process.env.DEFAULT_TEXT_SEARCH_CONFIG || 'chinese';
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
-ALTER DATABASE ${process.env.DB_DATABASE_NAME || 'immich'} SET default_text_search_config = '${tsConfig}';
+ALTER DATABASE ${sql.id(process.env.DB_DATABASE_NAME || 'immich')} SET default_text_search_config = ${sql.id(tsConfig)};
 `.execute(db);
 
   await sql`
@@ -22,7 +22,7 @@ create table ocr_info
 );
 
 create index ocr_info_idx_vec_text
-    on ocr_info using gin (to_tsvector('${tsConfig}'::regconfig, text));
+    on ocr_info using gin (to_tsvector('${sql.id(tsConfig)}'::regconfig, text));
 `.execute(db);
 }
 
