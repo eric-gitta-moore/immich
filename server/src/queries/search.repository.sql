@@ -84,6 +84,34 @@ limit
 offset
   $8
 
+-- SearchRepository.searchFuse
+select
+  "assets".*,
+  ts_rank(
+    to_tsvector(f_unaccent (ocr_info.text)),
+    to_tsquery(f_unaccent ($1))
+  ) as "text_rank",
+  1 - (smart_search.embedding <=> $2) as "vector_rank",
+  (0.6 * vector_rank + 0.4 * text_rank) as "combined_rank"
+from
+  "assets"
+  inner join "exif" on "assets"."id" = "exif"."assetId"
+  left join "smart_search" on "assets"."id" = "smart_search"."assetId"
+  left join "ocr_info" on "assets"."id" = "ocr_info"."assetId"
+where
+  "assets"."fileCreatedAt" >= $3
+  and "exif"."lensModel" = $4
+  and "assets"."ownerId" = any ($5::uuid[])
+  and "assets"."isFavorite" = $6
+  and "assets"."isArchived" = $7
+  and "assets"."deletedAt" is null
+order by
+  "combined_rank" desc
+limit
+  $8
+offset
+  $9
+
 -- SearchRepository.searchDuplicates
 with
   "cte" as (

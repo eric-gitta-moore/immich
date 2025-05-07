@@ -92,6 +92,10 @@ export interface SearchTagOptions {
   tagIds?: string[];
 }
 
+export interface SearchSmartOptions {
+  query?: string;
+}
+
 export interface SearchOrderOptions {
   orderDirection?: 'asc' | 'desc';
 }
@@ -122,7 +126,8 @@ export type SmartSearchOptions = SearchDateOptions &
   SearchStatusOptions &
   SearchUserIdOptions &
   SearchPeopleOptions &
-  SearchTagOptions;
+  SearchTagOptions &
+  SearchSmartOptions;
 
 export interface FaceEmbeddingSearch extends SearchEmbeddingOptions {
   hasPerson?: boolean;
@@ -245,6 +250,39 @@ export class SearchRepository {
     const items = await searchAssetBuilder(this.db, options)
       .innerJoin('smart_search', 'assets.id', 'smart_search.assetId')
       .orderBy(sql`smart_search.embedding <=> ${options.embedding}`)
+      .limit(pagination.size + 1)
+      .offset((pagination.page - 1) * pagination.size)
+      .execute();
+
+    return paginationHelper(items, pagination.size);
+  }
+
+  @GenerateSql({
+    params: [
+      { page: 1, size: 200 },
+      {
+        takenAfter: DummyValue.DATE,
+        embedding: DummyValue.VECTOR,
+        lensModel: DummyValue.STRING,
+        withStacked: true,
+        isFavorite: true,
+        userIds: [DummyValue.UUID],
+      },
+    ],
+  })
+  async searchFuse(pagination: SearchPaginationOptions, options: SmartSearchOptions) {
+    if (!isValidInteger(pagination.size, { min: 1, max: 1000 })) {
+      throw new Error(`Invalid value for 'size': ${pagination.size}`);
+    }
+    const items = await searchAssetBuilder(this.db, options)
+      .leftJoin('smart_search', 'assets.id', 'smart_search.assetId')
+      .leftJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
+      .select([
+        sql`ts_rank(to_tsvector(f_unaccent(ocr_info.text)), to_tsquery(f_unaccent(${options.query})))`.as('text_rank'),
+        sql`1 - (smart_search.embedding <=> ${options.embedding})`.as('vector_rank'),
+        sql`( 0.6 * vector_rank + 0.4 * text_rank )`.as('combined_rank'),
+      ])
+      .orderBy('combined_rank', 'desc')
       .limit(pagination.size + 1)
       .offset((pagination.page - 1) * pagination.size)
       .execute();

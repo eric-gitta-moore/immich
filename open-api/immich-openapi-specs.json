@@ -12200,6 +12200,9 @@
           "deviceId": {
             "type": "string"
           },
+          "fuse": {
+            "type": "boolean"
+          },
           "isArchived": {
             "type": "boolean"
           },

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 import { Place } from 'src/database';
 import { PropertyLifecycle } from 'src/decorators';
 import { AlbumResponseDto } from 'src/dtos/album.dto';
@@ -190,6 +190,10 @@ export class SmartSearchDto extends BaseSearchDto {
   @IsString()
   @IsNotEmpty()
   query!: string;
+
+  @IsBoolean()
+  @Optional()
+  fuse?: boolean;
 
   @IsString()
   @IsNotEmpty()
