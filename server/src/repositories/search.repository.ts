@@ -281,7 +281,7 @@ export class SearchRepository {
           .leftJoin('smart_search', 'assets.id', 'smart_search.assetId')
           .leftJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
           .select([
-            sql`ts_rank(to_tsvector(f_unaccent(ocr_info.text)), websearch_to_tsquery(f_unaccent(${options.query})))`.as(
+            sql`COALESCE( ts_rank( to_tsvector(f_unaccent(ocr_info.text)), websearch_to_tsquery(f_unaccent(${options.query})) ), 0 )`.as(
               'text_rank',
             ),
             sql`1 - (smart_search.embedding <=> ${options.embedding})`.as('vector_rank'),

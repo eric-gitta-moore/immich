@@ -89,9 +89,12 @@ with
   "ranked_assets" as (
     select
       "assets".*,
-      ts_rank(
-        to_tsvector(f_unaccent (ocr_info.text)),
-        to_tsquery(f_unaccent ($1))
+      COALESCE(
+        ts_rank(
+          to_tsvector(f_unaccent (ocr_info.text)),
+          websearch_to_tsquery(f_unaccent ($1))
+        ),
+        0
       ) as "text_rank",
       1 - (smart_search.embedding <=> $2) as "vector_rank"
     from
@@ -108,8 +111,8 @@ with
       and "assets"."deletedAt" is null
   )
 select
-  "ranked_assets"."*",
-  (0.6 * vector_rank + 0.4 * text_rank) as "combined_rank"
+  "ranked_assets".*,
+  (0.4 * vector_rank + 0.6 * text_rank) as "combined_rank"
 from
   "ranked_assets"
 order by
