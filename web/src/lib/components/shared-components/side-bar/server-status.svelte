@@ -61,7 +61,7 @@
       <button type="button" onclick={() => (isOpen = true)} class="dark:text-immich-gray flex gap-1">
         {#if isMain}
           <Icon path={mdiAlert} size="1.5em" color="#ffcc4d" /> {info?.sourceRef}
-        {:else}
+        {:else if false}
           {version}
         {/if}
       </button>
