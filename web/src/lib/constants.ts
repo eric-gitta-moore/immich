@@ -130,11 +130,12 @@ export const fallbackLocale = {
 
 export enum QueryType {
   SMART = 'smart',
+  OCR = 'ocr',
   METADATA = 'metadata',
   DESCRIPTION = 'description',
 }
 
-export const validQueryTypes = new Set([QueryType.SMART, QueryType.METADATA, QueryType.DESCRIPTION]);
+export const validQueryTypes = new Set([QueryType.SMART, QueryType.OCR, QueryType.METADATA, QueryType.DESCRIPTION]);
 
 export const locales = [
   { code: 'af-ZA', name: 'Afrikaans (South Africa)' },
