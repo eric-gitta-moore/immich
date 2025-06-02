@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { dialogController } from '$lib/components/shared-components/dialog/dialog';
   import {
     notificationController,
     NotificationType,
