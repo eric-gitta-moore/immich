@@ -64,7 +64,6 @@
   let searchResultAlbums: AlbumResponseDto[] = $state([]);
   let searchResultAssets: TimelineAsset[] = $state([]);
   let isLoading = $state(true);
-  let isOcrLoading = $state(false);
   let scrollY = $state(0);
   let scrollYHistory = 0;
 
