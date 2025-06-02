@@ -144,9 +144,11 @@ export enum Permission {
   PERSON_MERGE = 'person.merge',
   PERSON_REASSIGN = 'person.reassign',
 
+  SESSION_CREATE = 'session.create',
   SESSION_READ = 'session.read',
   SESSION_UPDATE = 'session.update',
   SESSION_DELETE = 'session.delete',
+  SESSION_LOCK = 'session.lock',
 
   SHARED_LINK_CREATE = 'sharedLink.create',
   SHARED_LINK_READ = 'sharedLink.read',
@@ -412,6 +414,7 @@ export enum DatabaseExtension {
   EARTH_DISTANCE = 'earthdistance',
   VECTOR = 'vector',
   VECTORS = 'vectors',
+  VECTORCHORD = 'vchord',
 }
 
 export enum BootstrapEventPriority {
@@ -570,6 +573,7 @@ export enum DatabaseLock {
   Library = 1337,
   GetSystemConfig = 69,
   BackupDatabase = 42,
+  MemoryCreation = 777,
 }
 
 export enum SyncRequestType {
@@ -579,6 +583,8 @@ export enum SyncRequestType {
   AssetExifsV1 = 'AssetExifsV1',
   PartnerAssetsV1 = 'PartnerAssetsV1',
   PartnerAssetExifsV1 = 'PartnerAssetExifsV1',
+  AlbumsV1 = 'AlbumsV1',
+  AlbumUsersV1 = 'AlbumUsersV1',
 }
 
 export enum SyncEntityType {
@@ -595,6 +601,11 @@ export enum SyncEntityType {
   PartnerAssetV1 = 'PartnerAssetV1',
   PartnerAssetDeleteV1 = 'PartnerAssetDeleteV1',
   PartnerAssetExifV1 = 'PartnerAssetExifV1',
+
+  AlbumV1 = 'AlbumV1',
+  AlbumDeleteV1 = 'AlbumDeleteV1',
+  AlbumUserV1 = 'AlbumUserV1',
+  AlbumUserDeleteV1 = 'AlbumUserDeleteV1',
 }
 
 export enum NotificationLevel {
@@ -614,4 +625,23 @@ export enum NotificationType {
 export enum OAuthTokenEndpointAuthMethod {
   CLIENT_SECRET_POST = 'client_secret_post',
   CLIENT_SECRET_BASIC = 'client_secret_basic',
+}
+
+export enum DatabaseSslMode {
+  Disable = 'disable',
+  Allow = 'allow',
+  Prefer = 'prefer',
+  Require = 'require',
+  VerifyFull = 'verify-full',
+}
+
+export enum AssetVisibility {
+  ARCHIVE = 'archive',
+  TIMELINE = 'timeline',
+
+  /**
+   * Video part of the LivePhotos and MotionPhotos
+   */
+  HIDDEN = 'hidden',
+  LOCKED = 'locked',
 }

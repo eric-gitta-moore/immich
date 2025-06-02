@@ -4,6 +4,7 @@
     notificationController,
     NotificationType,
   } from '$lib/components/shared-components/notification/notification';
+  import { modalManager } from '$lib/managers/modal-manager.svelte';
   import { featureFlags } from '$lib/stores/server-config.store';
   import { getJobName } from '$lib/utils';
   import { handleError } from '$lib/utils/handle-error';
@@ -45,7 +46,7 @@
 
   const handleConfirmCommand = async (jobId: JobName, dto: JobCommandDto) => {
     if (dto.force) {
-      const isConfirmed = await dialogController.show({
+      const isConfirmed = await modalManager.showDialog({
         prompt: $t('admin.confirm_reprocess_all_faces'),
       });
 
