@@ -42,7 +42,7 @@ export class OCRInfoService extends BaseService {
       return JobStatus.FAILED;
     }
 
-    if (!asset.isVisible) {
+    if (!asset.visibility) {
       return JobStatus.SKIPPED;
     }
 

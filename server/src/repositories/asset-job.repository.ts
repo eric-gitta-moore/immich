@@ -177,7 +177,7 @@ export class AssetJobRepository {
   getForOCRText(id: string) {
     return this.db
       .selectFrom('assets')
-      .select(['assets.id', 'assets.isVisible'])
+      .select(['assets.id', 'assets.visibility'])
       .select((eb) => withFiles(eb, AssetFileType.PREVIEW))
       .where('assets.id', '=', id)
       .executeTakeFirst();
