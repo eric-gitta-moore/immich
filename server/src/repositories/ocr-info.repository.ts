@@ -145,6 +145,7 @@ export class OCRInfoRepository {
     }
 
     const items = await searchAssetBuilder(this.db, options)
+      .selectAll('assets')
       .innerJoin('ocr_info', 'assets.id', 'ocr_info.assetId')
       .select(sql`ts_rank( to_tsvector(f_unaccent(ocr_info.text)), to_tsquery(f_unaccent(${options.ocr})) )`.as('rank'))
       .where(sql`to_tsvector(f_unaccent(ocr_info.text))`, '@@', sql`to_tsquery(f_unaccent(${options.ocr}))`)

@@ -208,7 +208,7 @@ export class SmartSearchDto extends BaseSearchWithResultsDto {
   page?: number;
 }
 
-export class OcrSearchDto extends BaseSearchDto {
+export class OcrSearchDto extends BaseSearchWithResultsDto {
   @IsString()
   @IsNotEmpty()
   ocr!: string;
