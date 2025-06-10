@@ -249,7 +249,7 @@
     "machine_learning_ocr_search_enabled": "启用 OCR 搜索",
     "machine_learning_ocr_search_enabled_description": "如果禁用，OCR 搜索将不会启用",
     "machine_learning_ocr_search_model": "OCR 搜索模型",
-    "machine_learning_ocr_search_model_description": "一个 OCR 搜索模型的名称，列表<link>here</link>。注意，当更改模型时，需要重新运行“OCR 搜索”任务。",
+    "machine_learning_ocr_search_model_description": "一个 OCR 搜索模型的名称，列表<link>here</link>。",
     "storage_template_date_time_description": "使用项目的创建时间戳作为日期时间信息",
     "storage_template_date_time_sample": "采样时间 {date}",
     "storage_template_enable_description": "启用存储模板",
